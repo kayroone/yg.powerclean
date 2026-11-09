@@ -1,0 +1,28 @@
+# dependencies
+/node_modules
+
+# testing
+/test-results
+/playwright-report
+
+# IDE
+.idea/
+.vscode/
+
+# Claude (nur lokal)
+CLAUDE.md
+.claude/
+.superpowers/
+
+# docs
+docs/
+
+# Vorschau: Custom Domain noch nicht gesetzt
+/CNAME
+
+# OS
+.DS_Store
+
+# env
+.env
+.env*.local

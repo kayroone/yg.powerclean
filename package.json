@@ -1,0 +1,13 @@
+{
+  "name": "yg-powerclean",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "npx playwright test",
+    "serve": "printf '\\n  \\033[1;36mYG PowerClean\\033[0m\\n' && printf '  Lokal:  \\033[4mhttp://localhost:8080\\033[0m\\n' && ip=$(ipconfig getifaddr en0 2>/dev/null); [ -n \"$ip\" ] && printf '  Handy:  \\033[4mhttp://%s:8080\\033[0m\\n' \"$ip\"; printf '\\n' && python3 -m http.server 8080",
+    "render-assets": "node scripts/render-assets.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.0"
+  }
+}

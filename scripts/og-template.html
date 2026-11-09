@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>YG PowerClean – Open Graph</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pc-navy-950: #020409;
+    --pc-navy-800: #021E3C;
+    --pc-navy-900: #030F1D;
+    --pc-cyan-500: #11A1F1;
+    --pc-blue-600: #0D64AE;
+    --pc-blue-300: #9ED5F8;
+    --pc-heading: #F7FCFF;
+    --pc-muted: #AFC4D3;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    display: grid;
+    place-items: center;
+    background-color: var(--pc-navy-900);
+    background-image:
+      radial-gradient(ellipse at 50% 16%, rgba(13, 100, 174, .42) 0%, rgba(2, 30, 60, .18) 36%, transparent 68%),
+      radial-gradient(ellipse at 4% 56%, rgba(17, 161, 241, .16) 0%, transparent 38%),
+      radial-gradient(ellipse at 96% 80%, rgba(17, 161, 241, .13) 0%, transparent 34%),
+      linear-gradient(180deg, #020409 0%, #021E3C 42%, #030F1D 100%);
+    font-family: 'Montserrat', Arial, sans-serif;
+  }
+  .stage {
+    display: grid;
+    justify-items: center;
+    gap: 34px;
+    padding: 0 90px;
+    text-align: center;
+  }
+  .logo { width: 720px; filter: drop-shadow(0 0 34px rgba(17, 161, 241, .26)); }
+  .accent {
+    width: 540px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #11A1F1 18%, #9ED5F8 50%, #11A1F1 82%, transparent);
+  }
+  .claim {
+    color: var(--pc-muted);
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: .08em;
+  }
+  .claim b { color: var(--pc-heading); font-weight: 900; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <img class="logo" src="../assets/logo-full.svg" alt="">
+    <div class="accent"></div>
+    <p class="claim">Reinigung für <b>Privat</b> und <b>Gewerbe</b></p>
+  </div>
+</body>
+</html>
