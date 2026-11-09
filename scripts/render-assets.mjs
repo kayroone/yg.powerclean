@@ -13,6 +13,7 @@ const RASTER_ICONS = [
 ];
 
 const OG_SIZE = { width: 1200, height: 630 };
+const OG_QUALITY = 92;
 const PORTRAIT = { source: "yoldas.png", width: 640 };
 const PORTRAIT_VARIANTS = [
   { target: "yoldas-640.webp", type: "image/webp", quality: 0.82 },
@@ -43,9 +44,13 @@ async function renderOgImage(browser) {
     waitUntil: "networkidle",
   });
   await page.evaluate(() => document.fonts.ready);
-  await page.screenshot({ path: asset("og-image.png"), type: "png" });
+  await page.screenshot({
+    path: asset("og-image.jpg"),
+    type: "jpeg",
+    quality: OG_QUALITY,
+  });
   await page.close();
-  console.log(`og-image.png ${OG_SIZE.width}x${OG_SIZE.height}`);
+  console.log(`og-image.jpg ${OG_SIZE.width}x${OG_SIZE.height}`);
 }
 
 async function renderPortrait(browser) {

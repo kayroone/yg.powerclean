@@ -1,7 +1,7 @@
 const { test, expect } = require("@playwright/test");
 const { readFileSync } = require("node:fs");
 const { resolve } = require("node:path");
-const { PREVIEW } = require("./site-state");
+const { PREVIEW, PRODUCTION_ORIGIN } = require("./site-state");
 
 const PAGES = ["/", "/impressum.html", "/datenschutz.html"];
 
@@ -34,5 +34,25 @@ test.describe("preview deployment", () => {
       "href",
       "https://www.yg-powerclean.de/",
     );
+  });
+});
+
+test.describe("released deployment", () => {
+  test.skip(PREVIEW, "Die Seite laeuft noch als Vorschau");
+
+  test("the custom domain is part of the deployment again", async ({
+    request,
+  }) => {
+    const ignored = readFileSync(
+      resolve(__dirname, "..", ".gitignore"),
+      "utf-8",
+    );
+    expect(ignored, "/CNAME steht noch in der .gitignore").not.toMatch(
+      /^\/CNAME$/m,
+    );
+
+    const response = await request.get("/CNAME");
+    expect(response.status()).toBe(200);
+    expect(`https://${(await response.text()).trim()}`).toBe(PRODUCTION_ORIGIN);
   });
 });

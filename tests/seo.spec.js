@@ -1,6 +1,10 @@
 const { test, expect } = require("@playwright/test");
 
-const { PREVIEW, PRODUCTION_INDEXABLE } = require("./site-state");
+const {
+  PREVIEW,
+  PRODUCTION_INDEXABLE,
+  PUBLIC_ORIGIN,
+} = require("./site-state");
 
 const HOST = "https://www.yg-powerclean.de";
 const ALL_PAGES = ["/", "/impressum.html", "/datenschutz.html"];
@@ -71,7 +75,7 @@ test.describe("start page metadata", () => {
     ).toBeGreaterThanOrEqual(60);
     expect(await attribute(page, 'meta[property="og:url"]')).toBe(`${HOST}/`);
     expect(await attribute(page, 'meta[property="og:image"]')).toBe(
-      `${HOST}/assets/og-image.png`,
+      `${PUBLIC_ORIGIN}/assets/og-image.jpg`,
     );
     expect(await attribute(page, 'meta[property="og:image:width"]')).toBe(
       "1200",
@@ -86,14 +90,21 @@ test.describe("start page metadata", () => {
       "summary_large_image",
     );
     expect(await attribute(page, 'meta[name="twitter:image"]')).toBe(
-      `${HOST}/assets/og-image.png`,
+      `${PUBLIC_ORIGIN}/assets/og-image.jpg`,
     );
   });
 
-  test("the referenced og image exists", async ({ page, request }) => {
+  test("the referenced og image exists and is light enough to share", async ({
+    page,
+    request,
+  }) => {
     const url = await attribute(page, 'meta[property="og:image"]');
-    const response = await request.get(url.replace(HOST, ""));
+    const response = await request.get(url.replace(PUBLIC_ORIGIN, ""));
     expect(response.status()).toBe(200);
+    expect(response.headers()["content-type"]).toContain("image/jpeg");
+    const bytes = (await response.body()).length;
+    expect(bytes, `${bytes} Bytes sind zu viel fuer eine WhatsApp-Vorschau`)
+      .toBeLessThan(300 * 1024);
   });
 });
 
@@ -113,7 +124,7 @@ test.describe("structured data", () => {
     expect(data.name).toBe("YG PowerClean");
     expect(data.description.length).toBeGreaterThan(40);
     expect(data.url).toBe(`${HOST}/`);
-    expect(data.image).toBe(`${HOST}/assets/og-image.png`);
+    expect(data.image).toBe(`${PUBLIC_ORIGIN}/assets/og-image.jpg`);
   });
 
   test("withholds the street address exactly like the visible page", () => {

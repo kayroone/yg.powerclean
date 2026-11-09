@@ -12,7 +12,7 @@ const STATIC_ASSETS = [
   "/assets/favicon.svg",
   "/assets/favicon-32.png",
   "/assets/apple-touch-icon.png",
-  "/assets/og-image.png",
+  "/assets/og-image.jpg",
   "/assets/yoldas.png",
   "/assets/yoldas-640.webp",
   "/assets/yoldas-640.jpg",
@@ -23,6 +23,23 @@ function pngSize(buffer) {
     width: buffer.readUInt32BE(16),
     height: buffer.readUInt32BE(20),
   };
+}
+
+function jpegSize(buffer) {
+  let offset = 2;
+  while (offset < buffer.length) {
+    if (buffer[offset] !== 0xff) throw new Error("kein JPEG-Marker");
+    const marker = buffer[offset + 1];
+    const length = buffer.readUInt16BE(offset + 2);
+    if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) {
+      return {
+        height: buffer.readUInt16BE(offset + 5),
+        width: buffer.readUInt16BE(offset + 7),
+      };
+    }
+    offset += 2 + length;
+  }
+  throw new Error("kein SOF-Segment gefunden");
 }
 
 test.describe("static assets", () => {
@@ -37,8 +54,8 @@ test.describe("static assets", () => {
   test("og-image has the dimensions required by Open Graph", async ({
     request,
   }) => {
-    const response = await request.get("/assets/og-image.png");
-    expect(pngSize(await response.body())).toEqual({
+    const response = await request.get("/assets/og-image.jpg");
+    expect(jpegSize(await response.body())).toEqual({
       width: 1200,
       height: 630,
     });
