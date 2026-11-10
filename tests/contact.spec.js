@@ -24,23 +24,19 @@ test.describe("contact", () => {
     await page.goto("/");
   });
 
-  test("offers a telephone and an email link", async ({ page }) => {
-    const phone = page.locator('#kontakt a[href^="tel:"]');
+  test("offers an email link", async ({ page }) => {
     const mail = page.locator('#kontakt a[href^="mailto:"]');
-    expect(await phone.count()).toBeGreaterThanOrEqual(1);
     expect(await mail.count()).toBeGreaterThanOrEqual(1);
-    await expect(phone.first()).toBeVisible();
     await expect(mail.first()).toBeVisible();
   });
 
-  test("telephone href carries no spaces", async ({ page }) => {
-    const hrefs = await page
-      .locator('#kontakt a[href^="tel:"]')
-      .evaluateAll((nodes) => nodes.map((node) => node.getAttribute("href")));
-    for (const href of hrefs) {
-      expect(href).toMatch(/^tel:\+?[0-9]+$/);
-    }
-    expect(new Set(hrefs).size, "alle tel-Links müssen dieselbe Nummer tragen").toBe(1);
+  test("offers no telephone link while the number is pending", async ({
+    page,
+  }) => {
+    expect(await page.locator('#kontakt a[href^="tel:"]').count()).toBe(0);
+    const pending = page.locator('#kontakt [data-placeholder="telefon"]');
+    await expect(pending).toHaveCount(1);
+    await expect(pending).toBeVisible();
   });
 
   test("every unconfirmed detail is marked as a placeholder", async ({

@@ -2,7 +2,7 @@ const { test, expect } = require("@playwright/test");
 
 const { PREVIEW } = require("./site-state");
 
-const DOMAIN = "https://www.yg-powerclean.de";
+const DOMAIN = "https://yg-powerclean.de";
 
 const STATIC_ASSETS = [
   "/assets/logo-full.svg",
@@ -109,7 +109,7 @@ test.describe("deployment files", () => {
     const response = await request.get("/CNAME");
     expect(response.status()).toBe(200);
     const body = await response.text();
-    expect(body.trim()).toBe("www.yg-powerclean.de");
+    expect(body.trim()).toBe("yg-powerclean.de");
     expect(body.trim().split("\n")).toHaveLength(1);
     expect(body.trim()).not.toMatch(/\s/);
   });

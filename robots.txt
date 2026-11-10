@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.yg-powerclean.de/sitemap.xml
+Sitemap: https://yg-powerclean.de/sitemap.xml

@@ -6,7 +6,7 @@ const {
   PUBLIC_ORIGIN,
 } = require("./site-state");
 
-const HOST = "https://www.yg-powerclean.de";
+const HOST = "https://yg-powerclean.de";
 const ALL_PAGES = ["/", "/impressum.html", "/datenschutz.html"];
 
 async function attribute(page, selector, name = "content") {
@@ -142,12 +142,9 @@ test.describe("structured data", () => {
     expect(data.openingHours.length).toBeGreaterThan(0);
   });
 
-  test("telephone matches the link on the page", async ({ page }) => {
-    const href = await page
-      .locator('#kontakt a[href^="tel:"]')
-      .first()
-      .getAttribute("href");
-    expect(data.telephone.replace(/\s/g, "")).toBe(href.replace("tel:", ""));
+  test("omits the telephone while no number is confirmed", async ({ page }) => {
+    expect(data.telephone).toBeUndefined();
+    expect(await page.locator('a[href^="tel:"]').count()).toBe(0);
   });
 
   test("claims no qualification the owner does not hold", () => {

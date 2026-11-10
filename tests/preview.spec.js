@@ -32,7 +32,7 @@ test.describe("preview deployment", () => {
     await page.goto("/");
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       "href",
-      "https://www.yg-powerclean.de/",
+      "https://yg-powerclean.de/",
     );
   });
 });

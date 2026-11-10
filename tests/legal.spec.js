@@ -47,7 +47,7 @@ test.describe("legal pages", () => {
       }) => {
         await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
           "href",
-          new RegExp(`^https://www\\.yg-powerclean\\.de${path.replace(".", "\\.")}$`),
+          new RegExp(`^https://yg-powerclean\\.de${path.replace(".", "\\.")}$`),
         );
       });
 
